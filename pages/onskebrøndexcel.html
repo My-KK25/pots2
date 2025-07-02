@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pop-up Input og Redigerbar Tabel</title>
+    <style>
+        #inputForm {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f1f1f1;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="showInputForm()">Tilføj Ny Post</button>
+    <button onclick="exportTableToExcel()">Eksporter til Excel</button>
+
+    <div id="inputForm">
+        <input type="text" id="entryColumn1" placeholder="Kolonne 1">
+        <input type="text" id="entryColumn2" placeholder="Kolonne 2">
+        <button onclick="addToTable()">Gem</button>
+        <button onclick="hideInputForm()">Annuller</button>
+    </div>
+</body>Body
+<div>
+    <table border="1" id="dataTable">
+        <thead>
+            <tr>
+                <th>Kolonne 1</th>
+                <th>Kolonne 2</th>
+                <th>Bermærkning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Nye rækker tilføjes her -->
+        </tbody>
+    </table>
+</div>
+    <!-- SheetJS Script -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    <script>
+        function showInputForm() {
+            document.getElementById('inputForm').style.display = 'block';
+        }
+
+        function hideInputForm() {
+            document.getElementById('inputForm').style.display = 'none';
+        }
+
+        function addToTable() {
+            var inputValue1 = document.getElementById('entryColumn1').value;
+            var inputValue2 = document.getElementById('entryColumn2').value;
+
+            if (inputValue1.trim() !== "" && inputValue2.trim() !== "") {
+                var table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+                var newRow = table.insertRow();
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                cell1.textContent = inputValue1;
+                cell2.textContent = inputValue2;
+
+                // Gør cellerne redigerbare
+                cell1.setAttribute('contenteditable', 'true');
+                cell2.setAttribute('contenteditable', 'true');
+            }
+
+            hideInputForm();
+            document.getElementById('entryColumn1').value = '';
+            document.getElementById('entryColumn2').value = '';
+        }
+
+        function exportTableToExcel() {
+            var table = document.getElementById('dataTable');
+            var workbook = XLSX.utils.table_to_book(table, {sheet: "Sheet1"});
+            XLSX.writeFile(workbook, 'tabel_data.xlsx');
+        }
+    </script>
+
+</body>
+</html>

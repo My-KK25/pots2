@@ -1,0 +1,77 @@
+For at tilføje en anden kolonne til tabellen og inputformularen, kan du tilpasse koden, så der er to inputfelter til de to kolonner. Her er en opdateret version af den tidligere kode:
+
+<!DOCTYPE html>
+<html lang="da">
+<head>
+   <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ønskebrønden</title>
+    <link rel="stylesheet" href="../styles.css">
+    </style>
+</head>
+<body>
+
+    <button onclick="showInputForm()">Tilføj din navn og ønsker</button>
+
+    <div id="inputForm">
+        <input type="text" id="entryColumn1" placeholder="Du hedder:">
+        <input type="text" id="entryColumn2" placeholder="din ønsker:">
+        <button onclick="addToTable()">Gem</button>
+        <button onclick="hideInputForm()">Annuller</button>
+    </div>
+
+    <table border="1" id="dataTable">
+        <thead>
+            <tr>
+                <th>Kolonne 1</th>
+                <th>Kolonne 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Nye rækker tilføjes her -->
+        </tbody>
+    </table>
+
+    <script>
+        function showInputForm() {
+            document.getElementById('inputForm').style.display = 'block';
+        }
+
+        function hideInputForm() {
+            document.getElementById('inputForm').style.display = 'none';
+        }
+
+        function addToTable() {
+            // Hent inputværdier
+            var inputValue1 = document.getElementById('entryColumn1').value;
+            var inputValue2 = document.getElementById('entryColumn2').value;
+
+            // Tjek om inputfeltet ikke er tomt
+            if (inputValue1.trim() !== "" && inputValue2.trim() !== "") {
+                // Find tabellen og tbody
+                var table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+
+                // Opret en ny række
+                var newRow = table.insertRow();
+
+                // Opret nye celler
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+
+                // Indsæt inputværdier i cellerne
+                cell1.textContent = inputValue1;
+                cell2.textContent = inputValue2;
+            }
+
+            // Skjul inputformularen
+            hideInputForm();
+
+            // Rens inputfelterne
+            document.getElementById('entryColumn1').value = '';
+            document.getElementById('entryColumn2').value = '';
+        }
+    </script>
+
+</body>
+</html>
